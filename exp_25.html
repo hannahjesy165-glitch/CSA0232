@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)http://simatslab.saveetha.com/practice_app/onlineide/onlineide?topic=looping -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="csrf-token" content="92875923b5119264c5667a652852bb5c5c69ea84ea20e1b90a3950b32688f3d9">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMATS Online Lab</title>
+    <link rel="stylesheet" href="./exp_25_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./exp_25_files/all.min.css">
+    <link rel="stylesheet" href="./exp_25_files/boxicons.min.css">
+    <link rel="stylesheet" href="./exp_25_files/style.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .main-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-bottom: 3px solid #f39c12;
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+        }
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-left, .header-right {
+            flex: 1;
+            display: flex;
+        }
+        .header-left {
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .header-center {
+            flex: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .header-right {
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .header-logo {
+            max-height: 55px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+        .main-header h1.app-title {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            display: block;
+        }
+        .app-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #f39c12;
+            margin-top: 4px;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            text-shadow: 0px 1px 2px rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.15);
+            padding: 2px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .welcome-text {
+            color: #ecf0f1;
+            font-size: 0.95rem;
+        }
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logout-btn:hover {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border-color: #e74c3c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        /* Dropdown container */
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        /* The user pill acts as the button */
+        .user-pill {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .user-pill:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
+        .welcome-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            color: #ffffff;
+        }
+        /* Dropdown content */
+        .user-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 115%;
+            background-color: #ffffff;
+            min-width: 160px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            animation: fadeInDown 0.2s ease-out forwards;
+        }
+        .user-dropdown-content.show {
+            display: block;
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .user-dropdown-content a {
+            color: #334155;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.2s ease, color 0.2s ease;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .user-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+        .user-dropdown-content a:hover {
+            background-color: #f8fafc;
+            color: #1e3c72;
+        }
+        .user-dropdown-content a i {
+            width: 18px;
+            text-align: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            transition: color 0.2s ease;
+        }
+        .user-dropdown-content a:hover i {
+            color: #1e3c72;
+        }
+        .user-dropdown-content .logout-option:hover {
+            color: #e74c3c;
+            background-color: #fef2f2;
+        }
+        .user-dropdown-content .logout-option:hover i {
+            color: #e74c3c;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header-left, .header-center, .header-right {
+                flex: none;
+                width: 100%;
+                justify-content: center;
+            }
+            .main-header h1.app-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+<style>#question-text,#question-title,#question-text-container{-webkit-user-select:none!important;user-select:none!important}</style></head>
+<body>
+<header class="main-header">
+    <div class="header-container">
+        <div class="header-left">
+                        <a href="http://simatslab.saveetha.com/practice_app/dashboard_student">
+                <img src="./exp_25_files/sselogonew.png" alt="Logo" class="header-logo">
+            </a>
+        </div>
+        
+        <div class="header-center">
+            <h1 class="app-title">SIMATS Online Programming Lab</h1>
+                            <div class="app-subtitle">C Programming</div>                    </div>
+        
+        <div class="header-right">
+                            <div class="user-dropdown" id="headerUserDropdown">
+                    <div class="user-pill" id="userDropdownBtn">
+                        <i class="fas fa-user-circle" style="font-size: 1.6rem; color: #ffffff;"></i>
+                        <div style="display: flex; flex-direction: column; line-height: 1.1;">
+                            <span class="welcome-text" style="font-size: 0.9rem;">Heanapriya A</span>
+                                                            <span style="font-size: 0.75rem; color: #cbd5e1; font-weight: 500; letter-spacing: 0.5px;">1912260720C</span>
+                                                    </div>
+                        <i class="fas fa-chevron-down text-white ms-1" style="font-size: 0.8rem;"></i>
+                    </div>
+                    <div class="user-dropdown-content" id="userDropdownContent">
+                                                    <a href="http://simatslab.saveetha.com/practice_app/dashboard_student">
+                                <i class="fas fa-th-large"></i> Dashboard
+                            </a>
+                                                <a href="javascript:void(0);" onclick="document.getElementById('changePwdModal').style.display='flex'">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                        <a href="http://simatslab.saveetha.com/practice_app/logout" class="logout-option">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+                    </div>
+    </div>
+    <!-- Native Password Modal Structure -->
+    <div id="changePwdModal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100000; align-items:center; justify-content:center; background: rgba(15, 23, 42, 0.85);">
+        <div style="background:#fff; padding:35px; border-radius:12px; width:90%; max-width:420px; position:relative; box-shadow: 0 10px 40px rgba(0,0,0,0.5);">
+            <span onclick="document.getElementById('changePwdModal').style.display='none'; document.getElementById('pwdAlert').classList.add('d-none');" style="position:absolute; right:20px; top:15px; font-size:32px; cursor:pointer; color:#94a3b8; line-height:1;">×</span>
+            <h3 class="mb-4" style="color:#1e293b; font-size:1.4rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Security Control</h3>
+            
+            <div id="pwdAlert" class="alert d-none" style="padding:10px; font-size:0.95rem; font-weight: 500;"></div>
+            
+            <form id="changePwdForm">
+                <div class="mb-3 text-start">
+                    <label class="form-label" style="font-size:0.9rem; font-weight:600; color:#475569;">Current Password</label>
+                    <input type="password" id="oldPwd" class="form-control" required="" style="border-color: #cbd5e1;">
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label" style="font-size:0.9rem; font-weight:600; color:#475569;">New Password (4-20 chars)</label>
+                    <input type="password" id="newPwd" class="form-control" required="" minlength="4" maxlength="20" style="border-color: #cbd5e1;">
+                </div>
+                <div class="mb-4 text-start">
+                    <label class="form-label" style="font-size:0.9rem; font-weight:600; color:#475569;">Retype New Password</label>
+                    <input type="password" id="retypePwd" class="form-control" required="" minlength="4" maxlength="20" style="border-color: #cbd5e1;">
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" id="btnSubmitPwd"><i class="fas fa-save"></i> Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdownBtn = document.getElementById('userDropdownBtn');
+            var dropdownContent = document.getElementById('userDropdownContent');
+            if (dropdownBtn && dropdownContent) {
+                dropdownBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownContent.classList.toggle('show');
+                });
+                document.addEventListener('click', function(e) {
+                    if (!dropdownContent.contains(e.target) && !dropdownBtn.contains(e.target)) {
+                        dropdownContent.classList.remove('show');
+                    }
+                });
+            }
+
+            // CHANGE PASSWORD AJAX HANDLER
+            const pwdForm = document.getElementById('changePwdForm');
+            const pwdAlert = document.getElementById('pwdAlert');
+            if (pwdForm) {
+                pwdForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const btn = document.getElementById('btnSubmitPwd');
+                    const old = document.getElementById('oldPwd').value;
+                    const newP = document.getElementById('newPwd').value;
+                    const retP = document.getElementById('retypePwd').value;
+
+                    pwdAlert.className = 'alert d-none';
+
+                    if (newP !== retP) {
+                        pwdAlert.innerHTML = 'Error: New passwords do not match!';
+                        pwdAlert.classList.remove('d-none');
+                        pwdAlert.classList.add('alert-danger');
+                        return;
+                    }
+                    if (newP.length < 4 || newP.length > 20) {
+                        pwdAlert.innerHTML = 'Error: Password must be between 4 and 20 characters!';
+                        pwdAlert.classList.remove('d-none');
+                        pwdAlert.classList.add('alert-warning');
+                        return;
+                    }
+
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+
+                    fetch('/practice_app/secure/change_password.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: 'oldPwd=' + encodeURIComponent(old) + '&newPwd=' + encodeURIComponent(newP) + '&csrf_token=' + encodeURIComponent(document.querySelector('meta[name="csrf-token"]').content)
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-save"></i> Update Password';
+                        
+                        pwdAlert.classList.remove('d-none');
+                        if(data.success) {
+                            pwdAlert.classList.add('alert-success');
+                            pwdAlert.innerHTML = 'Success! Password securely changed.';
+                            pwdForm.reset();
+                            setTimeout(() => { 
+                                document.getElementById('changePwdModal').style.display='none'; 
+                                pwdAlert.classList.add('d-none');
+                            }, 2500);
+                        } else {
+                            pwdAlert.classList.add('alert-danger');
+                            pwdAlert.innerHTML = data.message || 'Authentication failed.';
+                        }
+                    })
+                    .catch(e => {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-save"></i> Update Password';
+                        pwdAlert.classList.remove('d-none');
+                        pwdAlert.classList.add('alert-danger');
+                        pwdAlert.innerHTML = 'Critical Network Error occurred.';
+                    });
+                });
+            }
+
+            // Force reload if page is loaded from cache (e.g. back/forward button)
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted || (typeof window.performance != "undefined" && window.performance.navigation.type === 2)) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+</header>
+<main class="main-content">
+<style>
+/* Update container max width to match dashboard_student.php globally for this page */
+.container {
+    max-width: 1400px !important;
+}
+.ide-container {
+    max-width: 1400px !important;
+}
+.ide-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+.ide-left {
+    flex: 0 0 220px;
+    min-width: 200px;
+    max-width: 250px;
+}
+.ide-center {
+    flex: 1 1 500px;
+    min-width: 400px;
+    max-width: 1200px;
+}
+.ide-right {
+    flex: 0 0 220px;
+    min-width: 200px;
+    max-width: 250px;
+}
+
+/* Card Styling to match dashboard_student.php */
+.ide-columns .card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+    margin-bottom: 20px;
+}
+
+/* Sidebar cards padding */
+.ide-left .card-body, .ide-right .card-body {
+    padding: 20px 18px;
+}
+
+/* Main card padding */
+.ide-center .card-body {
+    padding: 20px 32px;
+}
+
+/* Question box height sync */
+#question-text-container {
+    height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+/* Custom scrollbar for question text */
+#question-text-container::-webkit-scrollbar {
+    width: 6px;
+}
+#question-text-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+#question-text-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+/* Terminal-style output */
+#output_area {
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    background-color: #1e1e1e !important;
+    color: #d4d4d4 !important;
+    border: none;
+    border-radius: 8px;
+    padding: 15px;
+    line-height: 1.5;
+}
+
+@media (max-width: 1024px) {
+    .ide-columns {
+        flex-direction: column;
+    }
+    .ide-left, .ide-center, .ide-right {
+        max-width: 100%;
+        flex: 1 1 auto;
+    }
+}
+.main-content {
+    padding-top: 10px !important;
+}
+</style>
+<div class="container ide-container pt-0 pb-4">
+    <div class="ide-columns">
+        <div class="ide-left">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-3" style="border-bottom: 2px solid #f4f6f8; padding-bottom: 10px;">
+                        <label for="question-dropdown" class="form-label fw-bold mb-0" style="color: #6c757d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Questions</label>
+                        <span id="question-progress" class="badge" style="background: #e7f1ff; color: #0d6efd; border-radius: 20px; padding: 5px 12px; font-weight: 600;">18 / 18 completed</span>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" id="question-dropdown">
+                                                            <option value="2" data-index="0" style="color: green; font-weight: bold;">Sum(ODD,EVEN)</option>
+                                                            <option value="19" data-index="1" style="color: green; font-weight: bold;">Natural</option>
+                                                            <option value="20" data-index="2" style="color: green; font-weight: bold;">Sum</option>
+                                                            <option value="21" data-index="3" style="color: green; font-weight: bold;">Table</option>
+                                                            <option value="22" data-index="4" style="color: green; font-weight: bold;">Prime</option>
+                                                            <option value="23" data-index="5" style="color: green; font-weight: bold;">Count Vows</option>
+                                                            <option value="24" data-index="6" style="color: green; font-weight: bold;">Fibonacci</option>
+                                                            <option value="25" data-index="7" style="color: green; font-weight: bold;">Factorial</option>
+                                                            <option value="26" data-index="8" style="color: green; font-weight: bold;">Pyramid</option>
+                                                            <option value="27" data-index="9" style="color: green; font-weight: bold;">Diamond</option>
+                                                            <option value="28" data-index="10" style="color: green; font-weight: bold;">R- triangle</option>
+                                                            <option value="29" data-index="11" style="color: green; font-weight: bold;"> Hollow Square</option>
+                                                            <option value="30" data-index="12" style="color: green; font-weight: bold;">Hollow Diamond </option>
+                                                            <option value="31" data-index="13" style="color: green; font-weight: bold;"> Pascal's triangle</option>
+                                                            <option value="32" data-index="14" style="color: green; font-weight: bold;">zigzag</option>
+                                                            <option value="33" data-index="15" style="color: green; font-weight: bold;">Spiral pattern</option>
+                                                            <option value="34" data-index="16" style="color: green; font-weight: bold;">Armstrong</option>
+                                                            <option value="35" data-index="17" style="color: green; font-weight: bold;">Perfect</option>
+                                                    </select>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <h5 class="card-title" id="question-title" style="color: #6c757d; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; border-bottom: 2px solid #f4f6f8; padding-bottom: 10px; margin-bottom: 15px;">Pyramid</h5>
+                        <div id="question-text-container">
+                            <div id="question-text" class="mb-2"> Write a program that prints a pyramid pattern of stars using nested loops.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ide-center">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3" style="border-bottom: 2px solid #f4f6f8; padding-bottom: 10px;">
+                        <label for="editor" class="form-label fw-bold mb-0" style="color: #6c757d; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700;">Program Editor</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <select id="language-selector" class="form-select form-select-sm" style="width: 120px; margin-right: 8px;">
+                                <option value="c" selected="">C</option>
+                                <option value="cpp">C++</option>
+                                <option value="java">Java</option>
+                                <option value="python">Python</option>
+                            </select>
+                            <span class="message text-danger small me-2" id="message" style="font-weight: 500;"></span>
+                            <button class="btn btn-success btn-sm px-3 fw-bold" id="button-run">Run</button>
+                            <button class="btn btn-primary btn-sm px-3 fw-bold" id="button-save">Save</button>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 15px; flex-grow: 1;">
+                        <textarea id="editor" name="programs" style="display: none;"></textarea><div class="CodeMirror cm-s-dracula" style="height: 500px;"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 4px; left: 33px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-vscrollbar" tabindex="-1" cm-not-content="true" style="display: block; bottom: 0px;"><div style="min-width: 1px; height: 656px;"></div></div><div class="CodeMirror-hscrollbar" tabindex="-1" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 29px; margin-bottom: -15px; border-right-width: 35px; min-height: 656px; min-width: 314.912px; padding-right: 15px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre class="CodeMirror-line-like"><span>xxxxxxxxxx</span></pre><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>41</div></div></div><div class="CodeMirror-measure"><pre class="CodeMirror-line" role="presentation"><span role="presentation" style="padding-right: 0.1px;">            <span class="cm-variable">printf</span>(<span class="cm-string">"Not a prime number"</span>);</span></pre></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors" style="visibility: hidden;"><div class="CodeMirror-cursor" style="left: 4px; top: 0px; height: 24px;">&nbsp;</div></div><div class="CodeMirror-code" role="presentation" style=""><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-meta">#include &lt;stdio.h&gt;</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-type">int</span> <span class="cm-def">main</span>()</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">5</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">{</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">6</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">7</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-type">int</span> <span class="cm-variable">n</span>, <span class="cm-variable">i</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">8</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">9</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-type">int</span> <span class="cm-variable">fact</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">10</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">11</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-variable">printf</span>(<span class="cm-string">"Enter a number: "</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">12</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">13</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-variable">scanf</span>(<span class="cm-string">"%d"</span>, <span class="cm-operator">&amp;</span><span class="cm-variable">n</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">14</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">15</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-keyword">for</span>(<span class="cm-variable">i</span> <span class="cm-operator">=</span> <span class="cm-number">1</span>; <span class="cm-variable">i</span> <span class="cm-operator">&lt;=</span> <span class="cm-variable">n</span>; <span class="cm-variable">i</span><span class="cm-operator">++</span>)</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">16</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">17</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">18</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">19</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">        <span class="cm-variable">fact</span> <span class="cm-operator">=</span> <span class="cm-variable">fact</span> <span class="cm-operator">*</span> <span class="cm-variable">i</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">20</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">21</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    }</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">22</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">23</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-variable">printf</span>(<span class="cm-string">"Factorial = %d"</span>, <span class="cm-variable">fact</span>);</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">24</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">25</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">    <span class="cm-keyword">return</span> <span class="cm-number">0</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">26</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" aria-hidden="true" style="left: -29px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">27</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 35px; width: 1px; border-bottom: 0px solid transparent; top: 656px;"></div><div class="CodeMirror-gutters" style="height: 691px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 29px;"></div></div></div></div>
+                    </div>
+                    <div class="mb-2" style="border-bottom: 2px solid #f4f6f8; padding-bottom: 10px;">
+                        <label for="output_area" class="form-label fw-bold mb-0" style="color: #6c757d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Output</label>
+                    </div>
+                    <textarea class="form-control" id="output_area" disabled="" placeholder="Your OUTPUT will appear here!" style="height: 250px; flex-shrink: 0;"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="ide-right">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="mb-3" style="border-bottom: 2px solid #f4f6f8; padding-bottom: 10px;">
+                        <label for="input_area" class="form-label fw-bold mb-0" style="color: #6c757d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">Input</label>
+                    </div>
+                    <textarea class="form-control" id="input_area" rows="4" placeholder="Your INPUT goes here!" style="border-radius: 8px; border: 1px solid #e2e8f0; flex-grow: 1;"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="./exp_25_files/codemirror.min.css">
+<link rel="stylesheet" href="./exp_25_files/dracula.min.css">
+<script src="./exp_25_files/codemirror.min.js.download"></script>
+<script src="./exp_25_files/mode-clike.min.js.download"></script>
+<script src="./exp_25_files/mode-python.min.js.download"></script>
+<script src="./exp_25_files/addon-closebrackets.min.js.download"></script>
+<script src="./exp_25_files/addon-matchbrackets.min.js.download"></script>
+<script src="./exp_25_files/jquery-3.6.0.min.js.download"></script>
+<script>
+const questions = [{"qids":2,"questions":"\u003Cpre\u003E\r\nC Program to Find the Sum of Even and Odd Numbers.\r\nProblem Description\r\nThe program takes the number N and finds the sum of odd and even numbers from 1 to N.\r\n\r\n\u003Cb\u003ETestcases:\u003C\/b\u003E\r\n-5\r\n10\r\n4\r\n100\r\n\u003C\/pre\u003E","qtitles":"Sum(ODD,EVEN)","topic":"looping"},{"qids":19,"questions":"Write a program that prints the first n natural numbers using a for loop.","qtitles":"Natural","topic":"looping"},{"qids":20,"questions":"Write a program that calculates the sum of the first n natural numbers using a while loop.","qtitles":"Sum","topic":"looping"},{"qids":21,"questions":" Write a program that prints the multiplication table of a given number using a for loop.","qtitles":"Table","topic":"looping"},{"qids":22,"questions":"Write a program that takes a number as input and determines whether it is a prime number or not using a while loop.","qtitles":"Prime","topic":"looping"},{"qids":23,"questions":"Write a program that takes a string as input and counts the number of vowels in the string using a for loop.","qtitles":"Count Vows","topic":"looping"},{"qids":24,"questions":"Write a program that prints the Fibonacci series up to a given number using a while loop.","qtitles":"Fibonacci","topic":"looping"},{"qids":25,"questions":"Write a program that takes a number as input and prints its factorial using a for loop.","qtitles":"Factorial","topic":"looping"},{"qids":26,"questions":" Write a program that prints a pyramid pattern of stars using nested loops.","qtitles":"Pyramid","topic":"looping"},{"qids":27,"questions":" Write a program that prints a diamond pattern of stars using nested loops.","qtitles":"Diamond","topic":"looping"},{"qids":28,"questions":"Write a program that prints a right-angled triangle pattern of stars using nested loops.","qtitles":"R- triangle","topic":"looping"},{"qids":29,"questions":"Write a program that prints a hollow square pattern of stars using nested loops.","qtitles":" Hollow Square","topic":"looping"},{"qids":30,"questions":"Write a program that prints a hollow diamond pattern of stars using nested loops.","qtitles":"Hollow Diamond ","topic":"looping"},{"qids":31,"questions":" Write a program that prints a Pascal\u0027s triangle pattern using nested loops.","qtitles":" Pascal\u0027s triangle","topic":"looping"},{"qids":32,"questions":"Write a program that prints a zigzag pattern of stars using nested loops.","qtitles":"zigzag","topic":"looping"},{"qids":33,"questions":"Write a program that prints a spiral pattern of numbers using nested loops.","qtitles":"Spiral pattern","topic":"looping"},{"qids":34,"questions":"Write a program to find the given number is Armstrong or Not.","qtitles":"Armstrong","topic":"looping"},{"qids":35,"questions":"Write a program to find the given number is Perfect number or Not.","qtitles":"Perfect","topic":"looping"}];
+let selectedQid = null;
+
+function normalizeExecutionLanguage(lang) {
+    const normalized = String(lang || '').toLowerCase();
+    if (normalized === 'python' || normalized === 'p') return 'python';
+    if (normalized === 'java' || normalized === 'j') return 'java';
+    if (normalized === 'c++' || normalized === 'cpp') return 'cpp';
+    if (normalized === 'ds' || normalized === 'c') return 'c';
+    return 'c';
+}
+
+let currentLanguage = normalizeExecutionLanguage('c');
+
+// Map language to CodeMirror mode
+function getCodeMirrorMode(lang) {
+    const langMap = {
+        'c': 'text/x-csrc',
+        'cpp': 'text/x-c++src',
+        'java': 'text/x-java',
+        'python': 'text/x-python',
+        'p': 'text/x-python',
+        'j': 'text/x-java'
+    };
+    return langMap[lang.toLowerCase()] || 'text/x-csrc';
+}
+
+let editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    lineNumbers: true,
+    mode: getCodeMirrorMode(currentLanguage),
+    theme: "dracula",
+    autoCloseBrackets: true,
+    matchBrackets: true,
+    highlightSelectionMatches: true
+});
+editor.setSize(null, "500px");
+
+function showMessage(msg, duration=3000) {
+    $("#message").text(msg);
+    setTimeout(() => { $("#message").text(""); }, duration);
+}
+
+function loadQuestion(qid) {
+    selectedQid = qid;
+    // Debugging: log questions and qid
+    console.log('questions:', questions);
+    console.log('qid:', qid);
+    const q = questions.find(q => String(q.qids) === String(qid));
+    $("#question-title").text(q ? q.qtitles : "");
+    $("#question-text").html(q ? q.questions : "");
+    // Load previous answer via AJAX
+    $.post("load_answer", {qids: qid, topic: "looping"}, function(data) {
+        if (data && data.success) {
+            editor.setValue(data.programs || "");
+            $("#input_area").val(data.inputtxt || "");
+            $("#output_area").val(data.outputs || "");
+        } else {
+            editor.setValue("");
+            $("#input_area").val("");
+            $("#output_area").val("");
+        }
+    }, 'json');
+}
+
+
+function updateDropdownColors(savedQids) {
+    $("#question-dropdown option").each(function() {
+        const qid = $(this).val();
+        if (savedQids.includes(qid)) {
+            $(this).css({color: 'green', fontWeight: 'bold'});
+        } else {
+            $(this).css({color: '', fontWeight: ''});
+        }
+    });
+    // Update progress badge
+    const total = $("#question-dropdown option").length;
+    const completed = savedQids.length;
+    $("#question-progress").text(`${completed} / ${total} completed`);
+}
+
+function fetchAndMarkSavedQuestions(selectFirst = false) {
+    $.get('get_saved_questions', {topic: "looping"}, function(savedQids) {
+        updateDropdownColors(savedQids);
+        if (selectFirst) {
+            // Select the first question
+            const firstQid = $("#question-dropdown option").first().val();
+            $("#question-dropdown").val(firstQid).trigger('change');
+        }
+    }, 'json');
+}
+
+$(document).ready(function() {
+    // Keep selector and execution language in sync with normalized session language.
+    $("#language-selector").val(currentLanguage);
+
+    $("#question-dropdown").on("change", function() {
+        const qid = $(this).val();
+        loadQuestion(qid);
+    });
+    
+    // Language selector change handler
+    $("#language-selector").on("change", function() {
+        const selectedLang = $(this).val();
+        currentLanguage = selectedLang;
+        const newMode = getCodeMirrorMode(selectedLang);
+        editor.setOption("mode", newMode);
+        showMessage("Language changed to " + selectedLang.toUpperCase(), 2000);
+    });
+    
+    $("#button-save").on("click", function() {
+        saveprogram();
+        // After save, refresh saved status
+        setTimeout(function() { fetchAndMarkSavedQuestions(false); }, 500);
+    });
+    $("#button-run").on("click", runprogram);
+    // On page load, mark saved and select first
+    fetchAndMarkSavedQuestions(true);
+});
+
+function saveprogram() {
+    if (!selectedQid) {
+        showMessage("Select a question first.");
+        return;
+    }
+    const code = editor.getValue();
+    const inputtxt = $("#input_area").val();
+    const outputs = $("#output_area").val();
+    const topic = "looping";
+    
+    showMessage("Saving...", 30000);
+    
+    $.post("submit_answer", {
+        qids: selectedQid,
+        programs: code,
+        topic: topic,
+        inputtxt: inputtxt,
+        outputs: outputs,
+        csrf_token: (document.querySelector('meta[name="csrf-token"]') || {}).content || ''
+    }, function(data) {
+        if (data && data.success) {
+            const msg   = data.action === 'saved' ? '✓ Saved' : '✓ Updated';
+            const color = data.action === 'saved' ? 'green' : '#0d6efd';
+            $("#message").css('color', color);
+            showMessage(msg, 3000);
+        } else {
+            $("#message").css('color', 'red');
+            showMessage("Failed to save answer.", 4000);
+        }
+    }, 'json').fail(function() {
+        $("#message").css('color', 'red');
+        showMessage("Failed to save answer.", 4000);
+    });
+}
+
+function runprogram() {
+    if (!selectedQid) {
+        showMessage("Select a question first.");
+        return;
+    }
+    const code = editor.getValue();
+    const inputtxt = $("#input_area").val();
+    let lang = currentLanguage.toLowerCase();
+    if (lang === 'python') {
+        lang = 'p';
+    } else if (lang === 'java') {
+        lang = 'j';
+    } else if (lang === 'c++' || lang === 'cpp') {
+        lang = 'cpp';
+    } else if (lang === 'c') {
+        lang = 'c';
+    }
+    $("#output_area").val("Running...");
+    const $runBtn = $("#button-run");
+    const $saveBtn = $("#button-save");
+    $runBtn.prop('disabled', true).text('Running...');
+    $saveBtn.prop('disabled', true);
+    const _csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    $.post("run_code", {
+        code: code,
+        inputtxt: inputtxt,
+        language: lang,
+        csrf_token: _csrfMeta ? _csrfMeta.getAttribute('content') : ''
+    }, function(data) {
+        if (data && data.success) {
+            $("#output_area").val(data.output);
+        } else {
+            $("#output_area").val((data && typeof data.output !== 'undefined') ? data.output : "Error running code.");
+            if (!data || !data.success) showMessage("Failed to run code.");
+        }
+        $runBtn.prop('disabled', false).text('Run');
+        $saveBtn.prop('disabled', false);
+    }, 'json').fail(function(xhr) {
+        console.error("Run Code Failed:", xhr.responseText);
+        $("#output_area").val("System Error: Could not reach compiler or server error occurred.");
+        showMessage("Failed to run code.");
+        $runBtn.prop('disabled', false).text('Run');
+        $saveBtn.prop('disabled', false);
+    });
+}
+
+// ─── ANTI-CHEAT: block copy / paste / cut / drag-drop / right-click ───────
+(function() {
+    function acWarn(msg) {
+        var t = document.getElementById('_acToast');
+        if (!t) {
+            t = document.createElement('div');
+            t.id = '_acToast';
+            t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);' +
+                'background:#1e293b;color:#f8fafc;padding:11px 24px;border-radius:10px;' +
+                'font-size:.85rem;font-weight:600;z-index:999999;opacity:0;' +
+                'transition:opacity .25s;pointer-events:none;display:flex;align-items:center;' +
+                'gap:10px;box-shadow:0 4px 24px rgba(0,0,0,.45);border-left:4px solid #ef4444;' +
+                'white-space:nowrap';
+            t.innerHTML = '<span style="color:#ef4444;font-size:1.1rem">&#9940;</span>' +
+                          '<span id="_acMsg"></span>';
+            document.body.appendChild(t);
+        }
+        document.getElementById('_acMsg').textContent = msg;
+        t.style.opacity = '1';
+        clearTimeout(t._tm);
+        t._tm = setTimeout(function() { t.style.opacity = '0'; }, 2600);
+    }
+
+    document.addEventListener('paste', function(e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        acWarn('Paste is not allowed here.');
+    }, true);
+
+    document.addEventListener('copy', function(e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        acWarn('Copy is not allowed here.');
+    }, true);
+
+    document.addEventListener('cut', function(e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        acWarn('Cut is not allowed here.');
+    }, true);
+
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        acWarn('Right-click is disabled.');
+    }, true);
+
+    document.addEventListener('dragstart', function(e) { e.preventDefault(); e.stopImmediatePropagation(); }, true);
+    document.addEventListener('dragover',  function(e) { e.preventDefault(); e.stopImmediatePropagation(); }, true);
+    document.addEventListener('drop',      function(e) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        acWarn('Drag & drop is not allowed.');
+    }, true);
+
+    document.addEventListener('keydown', function(e) {
+        var ctrl = e.ctrlKey || e.metaKey;
+        if (ctrl) {
+            var k = e.key.toLowerCase();
+            if (k === 'c') { e.preventDefault(); e.stopImmediatePropagation(); acWarn('Copy is not allowed.'); return; }
+            if (k === 'v') { e.preventDefault(); e.stopImmediatePropagation(); acWarn('Paste is not allowed.'); return; }
+            if (k === 'x') { e.preventDefault(); e.stopImmediatePropagation(); acWarn('Cut is not allowed.'); return; }
+            if (k === 'u') { e.preventDefault(); return; }
+            if (k === 's') { e.preventDefault(); return; }
+        }
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
+            var k2 = e.key.toLowerCase();
+            if (k2 === 'i' || k2 === 'j' || k2 === 'c') { e.preventDefault(); return; }
+        }
+        if (e.key === 'F12') { e.preventDefault(); return; }
+    }, true);
+
+    // Override CodeMirror paste command
+    if (typeof CodeMirror !== 'undefined') {
+        CodeMirror.commands.paste = function() {
+            acWarn('Paste is not allowed in the code editor.');
+        };
+    }
+
+    // Block drag-drop directly into the editor instance
+    if (typeof editor !== 'undefined') {
+        editor.on('drop', function(instance, e) {
+            e.preventDefault();
+            acWarn('Drag & drop is not allowed.');
+        });
+    }
+
+    // Prevent selecting question text (left panel)
+    var s = document.createElement('style');
+    s.textContent = '#question-text,#question-title,#question-text-container{' +
+                    '-webkit-user-select:none!important;user-select:none!important}';
+    document.head.appendChild(s);
+})();
+</script>
+</main>
+<style>
+    .main-footer {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: #ecf0f1;
+        text-align: center;
+        padding: 20px 0;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        margin-top: auto;
+        border-top: 3px solid #f39c12;
+        box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    }
+    .footer-highlight {
+        color: #f39c12;
+        font-weight: 700;
+    }
+</style>
+
+<footer class="main-footer">
+    <div class="container">
+        © 2026 <span class="footer-highlight">SIMATS Online Lab</span>. All rights reserved.
+    </div>
+</footer>
+<script src="./exp_25_files/bootstrap.bundle.min.js.download"></script>
+
+
+</body></html>
